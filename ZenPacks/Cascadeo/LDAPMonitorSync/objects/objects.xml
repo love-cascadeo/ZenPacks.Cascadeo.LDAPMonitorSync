@@ -14,7 +14,7 @@ COMMAND
 True
 </property>
 <property type="string" id="eventClass" mode="w" >
-/Cmd/Fail
+/Cmd
 </property>
 <property type="int" id="severity" mode="w" >
 3
