@@ -6,7 +6,7 @@
 Products.ZenModel.Device
 </property>
 <tomanycont id='datasources'>
-<object id='check_ldap_sync' module='Products.ZenModel.BasicDataSource' class='BasicDataSource'>
+<object id='check_ldap_sync' module='ZenPacks.Cascadeo.LDAPMonitorSync.datasources.LDAPMonitorSyncDataSource' class='LDAPMonitorSyncDataSource'>
 <property select_variable="sourcetypes" type="selection" id="sourcetype" mode="w" >
 COMMAND
 </property>
@@ -18,9 +18,6 @@ True
 </property>
 <property type="int" id="severity" mode="w" >
 3
-</property>
-<property type="string" id="commandTemplate" mode="w" >
-/usr/local/zenoss/zenoss/libexec/check_ldap_sync.sh ldap-master-1.cascadeo.com ${dev/id}
 </property>
 <property type="int" id="cycletime" mode="w" >
 300
