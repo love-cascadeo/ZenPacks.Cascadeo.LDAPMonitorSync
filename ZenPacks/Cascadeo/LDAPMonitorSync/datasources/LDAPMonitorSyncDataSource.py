@@ -19,48 +19,19 @@ Defines datasource for LDAPMonitorSync
 from Globals import InitializeClass
 
 import Products.ZenModel.BasicDataSource as BasicDataSource
-from Products.ZenModel.ZenPackPersistence import ZenPackPersistence
-from AccessControl import ClassSecurityInfo, Permissions
-from Products.ZenUtils.ZenTales import talesCompile, getEngine
 
 import os
+import stat
+import shutil
 
+class LDAPMonitorSyncDataSource(BasicDataSource.BasicDataSource):
 
-class LDAPMonitorSyncDataSource(ZenPackPersistence,
-                                BasicDataSource.BasicDataSource):
-    
-    ZEN_COMMAND = 'COMMAND'
-    
-    sourcetypes = (ZEN_COMMAND,)
-    sourcetype = ZEN_COMMAND
-
-    ZENPACKID = 'ZenPacks.Cascadeo.LDAPMonitorSync'
-
-    parser = 'Auto'
-
-    eventClass = '/Cmd'
-
-    _properties = BasicDataSource.BasicDataSource._properties
-        
-    def __init__(self, id, title=None, buildRelations=True):
-        BasicDataSource.BasicDataSource.__init__(self, id, title,
-                buildRelations)
-
-    def useZenCommand(self):
-        return True
-
-
-    def getCommand(self, context):
-        cmd = 'check_ldap_sync.sh ldap-master-1.cascadeo.com ${dev/id}'
-        cmd = BasicDataSource.BasicDataSource.getCommand(self, context, cmd)
-        return cmd
-
-
-    def checkCommandPrefix(self, context, cmd):
-        if self.usessh:
-            return os.path.join(context.zCommandPath, cmd)
-        zp = self.getZenPack(context)
-        return zp.path('lib', cmd)
-
+	def __init__(self, id, title=None, buildRelations=True):
+		BasicDataSource.BasicDataSource.__init__(self, id, title, buildRelations)
+		script_path = os.path.join(os.path.dirname( __file__ ), '..', 'lib', 'check_ldap_sync.sh')
+		new_file = '/usr/local/zenoss/zenoss/libexec/check_ldap_sync.sh'
+		shutil.copyfile(script_path, new_file)
+		st = os.stat(new_file)
+		os.chmod(new_file, st.st_mode | stat.S_IEXEC)
 
 InitializeClass(LDAPMonitorSyncDataSource)

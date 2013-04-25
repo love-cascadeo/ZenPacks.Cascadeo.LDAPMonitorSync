@@ -19,6 +19,9 @@ True
 <property type="int" id="severity" mode="w" >
 3
 </property>
+<property type="string" id="commandTemplate" mode="w" >
+/usr/local/zenoss/zenoss/libexec/check_ldap_sync.sh ldap-master-1.cascadeo.com ${dev/id}
+</property>
 <property type="int" id="cycletime" mode="w" >
 300
 </property>
